@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.scss';
 
+import TaskList from './components/Organisms/TaskList';
+
 const App = () => {
   return (
     <div className="App">
@@ -8,9 +10,7 @@ const App = () => {
         <h1>Todo App</h1>
         </header>
       <main id="mainWrap">
-        <section className="gridWrap">
-          <h2>The Burn.Net todo app</h2>
-          </section>
+        <TaskList />
         </main>
       </div>
   )
