@@ -1,8 +1,5 @@
-# The Goodness of ReactJS, Minus the Create part.
-Cause Minimal is good!!
+# ReactJS Todo app
 
-## Installed:
-- ReactJS
-- babel
-- webpack
-- node-sass
+## Scripts
+1. To Install: Run `npm install`
+2. To Start: Run `npm start`
