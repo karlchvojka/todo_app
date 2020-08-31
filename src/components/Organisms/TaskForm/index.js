@@ -1,7 +1,9 @@
 import React from 'react';
 import './index.scss';
 
-const TaskForm = (props) => {
+import Datepicker from '../DatePicker'
+
+function TaskForm() {
   return (
     <section className="taskForm">
       <form action="/newtweet" method="POST">
@@ -9,6 +11,7 @@ const TaskForm = (props) => {
         <textarea id="textAreaMain" name="text"></textarea>
         <input type="submit" value="tweet" />
       </form>
+      <Datepicker />
     </section>
   )
 }
