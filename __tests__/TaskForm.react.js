@@ -2,11 +2,11 @@ import React from 'react';
 import {render} from '@testing-library/react';
 import { create, renderer } from 'react-test-renderer';
 
-import TaskList from '../src/components/Organisms/TaskList';
+import TaskForm from '../src/components/Organisms/TaskForm';
 
-describe("The Task List component", () => {
+describe("The Task Form component", () => {
   test('should render properly', () => {
-    const tasklist = create(<TaskList />);
+    const tasklist = create(<TaskForm />);
     expect(tasklist.toJSON()).toMatchSnapshot();
   })
 });
