@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Task Form component should render properly 1`] = `
+<section
+  className="taskForm"
+>
+  <form
+    action="/newtweet"
+    method="POST"
+  >
+    <input
+      name="title"
+      type="text"
+    />
+    <textarea
+      id="textAreaMain"
+      name="text"
+    />
+    <input
+      type="submit"
+      value="tweet"
+    />
+  </form>
+</section>
+`;
