@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import Moment from 'react-moment';
 
 
 // Helper Import
-import { GetDateRange } from '../../../helpers/getDateRange.js'
 
 function Datepicker(props) {
-  const [days, setDays] = useState([])
 
-  useEffect(() => {
-    let daysArr = GetDateRange();
-    setDays(daysArr)
-  }, [])
 
   const selectDay = event => {
     props.chooseDate(event.currentTarget.id)
   }
 
-  const dayList = days.map((day, index) => {
+  const dayList = props.daysData.map((day, index) => {
     return (
       <div onClick={selectDay} key={index} id={index} className="day"><p>{day.split(' ')[2]}</p></div>
     )
@@ -28,7 +21,10 @@ function Datepicker(props) {
 
   return (
     <section className="datepicker">
-    {dayList}
+    <p>These are the current 90 days. The current month, + 1 month before, and one month after</p>
+      <div className="dayswrap">
+        {dayList}
+      </div>
     </section>
   )
 }
