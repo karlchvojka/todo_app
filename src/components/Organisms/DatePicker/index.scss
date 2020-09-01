@@ -3,7 +3,7 @@
 .datepicker {
   background-color: #000;
   box-shadow: 2px 1px 8px 5px rgba(48,191,242,0.75);
-  display: none;
+  display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: auto;
   padding:5px;

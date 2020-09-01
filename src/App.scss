@@ -19,7 +19,11 @@ header {
   text-align:center;
 }
 #mainWrap {
-  height:calc(100vh - 80px);
+  height:calc(100% - 80px);
   max-width:80%;
   margin: $spacing auto 0 auto;
+}
+
+input {
+  border: none;
 }

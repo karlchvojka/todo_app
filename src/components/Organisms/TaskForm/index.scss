@@ -1,8 +1,20 @@
+@import '../../../App.scss';
+
 .taskForm {
   box-shadow: 2px 1px 8px 5px rgba(48,191,242,0.75);
-  height:100px;
+  height:100%;
   margin-bottom:25px;
   padding:20px;
   position:relative;
   width:calc(100% - 40px);
+
+  .dateWrap {
+    display:grid;
+    grid-template-columns: 50% 50%;
+    margin-top:20px;
+  }
+
+  .descWrap {
+    margin-top:20px;
+  }
 }
