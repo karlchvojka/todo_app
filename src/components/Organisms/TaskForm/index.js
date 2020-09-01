@@ -12,8 +12,16 @@ function onDatePick(e) {
 }
 
 function TaskForm() {
-  const [picker, setPicker] = useState({});
+  const [picker, setPicker] = useState([]);
 
+  const updatePicker = (data) => {
+    let current = picker;
+    if (current.length < 2) {
+      setPicker([...picker, data])
+    } else {
+      setPicker([data])
+    }
+  }
 
   return (
     <section className="taskForm">
@@ -26,13 +34,13 @@ function TaskForm() {
 
         <div className="dateWrap">
           <div className="startDate">
-            <label>Start Date:<br/>
-              <input type="text" name="startDate" onClick={onDatePick}/>
+            <label>Start Date: {picker[0]}<br/>
+              <input type="text" name="startDate" onClick={onDatePick} />
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date:<br/>
+            <label>End Date: {picker[1]} <br/>
               <input type="text" name="endDate" />
             </label>
           </div>
@@ -46,7 +54,7 @@ function TaskForm() {
 
         <input type="submit" value="tweet" />
         </form>
-      <Datepicker chooseDate={setPicker} />
+      <Datepicker chooseDate={updatePicker} />
       </section>
   )
 }

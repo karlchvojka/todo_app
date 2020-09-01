@@ -14,11 +14,17 @@ function Datepicker(props) {
     setDays(daysArr)
   }, [])
 
+  const selectDay = event => {
+    props.chooseDate(event.currentTarget.id)
+  }
+
   const dayList = days.map((day, index) => {
     return (
-      <div key={index} className="day"><a>{day.split(' ')[2]}</a></div>
+      <div onClick={selectDay} key={index} id={index} className="day"><p>{day.split(' ')[2]}</p></div>
     )
   })
+
+
 
   return (
     <section className="datepicker">
