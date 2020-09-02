@@ -2,9 +2,8 @@ import moment from 'moment';
 import { extendMoment } from 'moment-range';
 const moment2 = extendMoment(moment);
 
-export const GetDateRange = (setPos) => {
+export const GetDateRange = (currYear) => {
   const currMonth = new Date().getMonth() + 1;
-  const currYear = new Date().getYear() + 1900;
   const start = new Date(currYear, (currMonth - 1 ), 0);
   const end   = new Date(currYear, (currMonth + 1 ), 0);
   const range = moment2.range(start, end);

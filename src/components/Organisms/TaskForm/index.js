@@ -15,12 +15,13 @@ function onDatePick(e) {
 
 function TaskForm() {
   const [picker, setPicker] = useState([0]);
-  const [days, setDays] = useState([])
+  const [days, setDays] = useState([]);
+  const [currYear, setCurrYear] = useState(new Date().getYear() + 1900);
 
   useEffect(() => {
-    let daysArr = GetDateRange();
+    let daysArr = GetDateRange(currYear);
     setDays(daysArr)
-  }, [])
+  }, [currYear])
 
   const updatePicker = (data) => {
     let current = picker;
@@ -31,7 +32,6 @@ function TaskForm() {
     }
   }
 
-  console.log('picker', picker)
   return (
     <section className="taskForm">
       <form action="/newtweet" method="POST">
@@ -63,7 +63,7 @@ function TaskForm() {
 
         <input type="submit" value="tweet" />
         </form>
-      <Datepicker chooseDate={updatePicker} daysData={days} />
+      <Datepicker chooseDate={updatePicker} daysData={days} currYear={currYear} setCurrYear={setCurrYear}/>
       </section>
   )
 }
