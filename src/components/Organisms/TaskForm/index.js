@@ -3,7 +3,6 @@ import './index.scss';
 import Moment from 'react-moment';
 
 import Datepicker from '../DatePicker'
-import { GetDateRange } from '../../../helpers/getDateRange.js'
 
 function onDatePick(e) {
   e.preventDefault();
@@ -14,24 +13,12 @@ function onDatePick(e) {
 }
 
 function TaskForm() {
-  const [picker, setPicker] = useState([0]);
+  const [datePicker, setDatePicker] = useState([]);
   const [days, setDays] = useState([]);
-  const [currYear, setCurrYear] = useState(new Date().getYear() + 1900);
 
-  useEffect(() => {
-    let daysArr = GetDateRange(currYear);
-    setDays(daysArr)
-  }, [currYear])
+  const [dataFromPicker, setDataFromPicker] = useState({});
 
-  const updatePicker = (data) => {
-    let current = picker;
-    if (current.length < 3) {
-      setPicker([...picker, parseInt(data)])
-    } else {
-      setPicker([data])
-    }
-  }
-
+  console.log('form', datePicker)
   return (
     <section className="taskForm">
       <form action="/newtweet" method="POST">
@@ -43,13 +30,13 @@ function TaskForm() {
 
         <div className="dateWrap">
           <div className="startDate">
-            <label>Start Date: {picker[1] ? <Moment format="DD MMM">{days[picker[1]]}</Moment>: ''}<br/>
+            <label>Start Date: {days[datePicker[0]] ? <Moment format="DD MMM">{days[datePicker[0]]}</Moment>: ''}<br/>
               <input type="text" name="startDate" onClick={onDatePick} />
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date:{picker[2] ? <Moment format="DD MMM">{days[picker[2]]}</Moment>: ''} <br/>
+            <label>End Date:{days[datePicker[1]] ? <Moment format="DD MMM">{days[datePicker[1]]}</Moment>: ''} <br/>
               <input type="text" name="endDate" />
             </label>
           </div>
@@ -63,7 +50,7 @@ function TaskForm() {
 
         <input type="submit" value="tweet" />
         </form>
-      <Datepicker chooseDate={updatePicker} daysData={days} currYear={currYear} setCurrYear={setCurrYear}/>
+      <Datepicker updateDate={setDataFromPicker}/>
       </section>
   )
 }

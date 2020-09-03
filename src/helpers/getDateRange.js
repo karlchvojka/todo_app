@@ -2,10 +2,12 @@ import moment from 'moment';
 import { extendMoment } from 'moment-range';
 const moment2 = extendMoment(moment);
 
-export const GetDateRange = (currYear) => {
-  const currMonth = new Date().getMonth() + 1;
-  const start = new Date(currYear, (currMonth - 1 ), 0);
-  const end   = new Date(currYear, (currMonth + 1 ), 0);
+export const GetDateRange = (currDate) => {
+  const currMonth = currDate.month;
+  const start = new Date(currDate.year, (currDate.month - 2 ), 1);
+  const end   = new Date(currDate.year, (currDate.month + 1 ), 0);
+  console.log("start: ", start);
+  console.log("end: ", end)
   const range = moment2.range(start, end);
   let daysArr = [];
 
