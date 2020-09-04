@@ -6,20 +6,24 @@ import { GetDateRange } from '../../../helpers/getDateRange.js'
 // Helper Import
 
 function Datepicker(props) {
-  const [currDate, setCurrDate] = useState({
-    year: new Date().getYear() + 1900,
-    month: new Date().getMonth() + 1
-  });
   const [days, setDays] = useState([]);
   const [picker, setPicker] = useState({
+    currentDate: {
+      year: new Date().getYear() + 1900,
+      month: new Date().getMonth() + 1
+    },
     days: [],
-    chosen: [0,1]
+    chosen: []
   });
   const [chosenDate, setChosenDate] = useState([]);
 
   useEffect(() => {
-    updateDate();
-  }, [currDate])
+    let daysArr = GetDateRange(picker.currentDate);
+    setPicker(prev => ({
+      ...prev,
+      days: daysArr
+    }));
+  }, [])
 
   useEffect(() => {
     props.updateDate(picker);
@@ -27,32 +31,24 @@ function Datepicker(props) {
 
   const updatePicker = (data) => {
       let newStuff = picker['chosen'];
-      console.log('nstuff: ', newStuff)
-      let stuff = newStuff.push(data);
-      console.log('stuff: ', stuff)
+      let afterStuff = [...newStuff, parseInt(data)];
+      setPicker(prev => ({
+        ...prev,
+        chosen: afterStuff
+      }))
       props.updateDate(picker);
-
-  }
-
-  const updateDate = () => {
-    let daysArr = GetDateRange(currDate);
-    setDays(daysArr);
   }
 
   const selectDay = event => {
     updatePicker(event.currentTarget.id)
   }
 
-  const dayList = days.map((day, index) => {
-    return (
-      <div onClick={selectDay} key={index} id={index} className="day"><p>{day.split(' ')[2]}</p></div>
-    )
-  })
-
   const selectYear = (event) => {
-    setCurrDate(prev => ({
+    setPicker(prev => ({
       ...prev,
-      year: parseInt(event)
+      currentDate: {
+        year: parseInt(event)
+        }
     }))
   }
 
@@ -68,6 +64,13 @@ function Datepicker(props) {
       month: currDate.month - 1
     }))
   }
+  const dayArray = picker.days;
+
+  const dayList = dayArray.map((day, index) => {
+    return (
+      <div onClick={selectDay} key={index} id={index} className="day"><p>{day.split(' ')[2]}</p></div>
+    )
+  })
 
 
   return (

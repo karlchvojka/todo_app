@@ -3,22 +3,27 @@ import './index.scss';
 import Moment from 'react-moment';
 
 import Datepicker from '../DatePicker'
+import { GetDateRange } from '../../../helpers/getDateRange.js'
 
 function onDatePick(e) {
   e.preventDefault();
-  // DO STUFF
-  // 1. Show date DatePicker
-
-  // 2. return back the date selected
 }
 
 function TaskForm() {
   const [datePicker, setDatePicker] = useState([]);
-  const [days, setDays] = useState([]);
+  const [currDate, setCurrDate] = useState({
+    year: new Date().getYear() + 1900,
+    month: new Date().getMonth() + 1
+  });
+  const [dataFromPicker, setDataFromPicker] = useState({
+    currentDate: {
+      year: '',
+      month: ''
+    },
+    days: [],
+  chosen: []
+  });
 
-  const [dataFromPicker, setDataFromPicker] = useState({});
-
-  console.log('form', datePicker)
   return (
     <section className="taskForm">
       <form action="/newtweet" method="POST">
@@ -30,13 +35,13 @@ function TaskForm() {
 
         <div className="dateWrap">
           <div className="startDate">
-            <label>Start Date: {days[datePicker[0]] ? <Moment format="DD MMM">{days[datePicker[0]]}</Moment>: ''}<br/>
+            <label>Start Date: {dataFromPicker.chosen[0] ? <Moment format="DD MMM">{dataFromPicker['days'][dataFromPicker.chosen[0]]}</Moment>: ''}<br/>
               <input type="text" name="startDate" onClick={onDatePick} />
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date:{days[datePicker[1]] ? <Moment format="DD MMM">{days[datePicker[1]]}</Moment>: ''} <br/>
+            <label>End Date:{dataFromPicker.chosen[1] ? <Moment format="DD MMM">{dataFromPicker['days'][dataFromPicker.chosen[1]]}</Moment>: ''} <br/>
               <input type="text" name="endDate" />
             </label>
           </div>

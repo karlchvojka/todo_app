@@ -6,8 +6,6 @@ export const GetDateRange = (currDate) => {
   const currMonth = currDate.month;
   const start = new Date(currDate.year, (currDate.month - 2 ), 1);
   const end   = new Date(currDate.year, (currDate.month + 1 ), 0);
-  console.log("start: ", start);
-  console.log("end: ", end)
   const range = moment2.range(start, end);
   let daysArr = [];
 
