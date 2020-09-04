@@ -58,3 +58,14 @@ p {
   line-height:20px;
   margin-bottom:10px;
 }
+
+label {
+  color: $lightBlue;
+  font-family: $paraFont;
+  font-size:15px;
+  line-height:17px;
+
+  input, textarea {
+    margin-top:5px;
+  }
+}
