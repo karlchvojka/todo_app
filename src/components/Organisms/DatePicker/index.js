@@ -6,7 +6,6 @@ import { GetDateRange } from '../../../helpers/getDateRange.js'
 // Helper Import
 
 function Datepicker(props) {
-  const [days, setDays] = useState([]);
   const [picker, setPicker] = useState({
     currentDate: {
       year: new Date().getYear() + 1900,
@@ -15,7 +14,6 @@ function Datepicker(props) {
     days: [],
     chosen: []
   });
-  const [chosenDate, setChosenDate] = useState([]);
 
   useEffect(() => {
     let daysArr = GetDateRange(picker.currentDate);
@@ -23,7 +21,7 @@ function Datepicker(props) {
       ...prev,
       days: daysArr
     }));
-  }, [])
+  }, [picker.currentDate.month])
 
   useEffect(() => {
     props.updateDate(picker);
@@ -53,16 +51,29 @@ function Datepicker(props) {
   }
 
   const incMonth = (e) => {
-    setCurrDate(prev => ({
+    const currDate = picker.currentDate.month;
+    console.log(currDate)
+    setPicker(prev => ({
       ...prev,
-      month: currDate.month + 1
+      currentDate: {
+        ...prev,
+        month: currDate + 1
+      }
     }))
+    props.updateDate(picker);
   }
   const decMonth = (e) => {
-    setCurrDate(prev => ({
+    const currDate = picker.currentDate.month;
+    console.log(currDate)
+    setPicker(prev => ({
       ...prev,
-      month: currDate.month - 1
+      currentDate: {
+        ...prev,
+        month: currDate - 1
+      }
     }))
+    props.updateDate(picker);
+    console.log(picker.currentDate.month)
   }
   const dayArray = picker.days;
 

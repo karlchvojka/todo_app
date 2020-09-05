@@ -10,11 +10,6 @@ function onDatePick(e) {
 }
 
 function TaskForm() {
-  const [datePicker, setDatePicker] = useState([]);
-  const [currDate, setCurrDate] = useState({
-    year: new Date().getYear() + 1900,
-    month: new Date().getMonth() + 1
-  });
   const [dataFromPicker, setDataFromPicker] = useState({
     currentDate: {
       year: '',
