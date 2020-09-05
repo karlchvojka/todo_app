@@ -21,7 +21,7 @@ function Datepicker(props) {
       ...prev,
       days: daysArr
     }));
-  }, [])
+  }, [picker.currentDate.month])
 
   useEffect(() => {
     props.updateDate(picker);
@@ -51,16 +51,29 @@ function Datepicker(props) {
   }
 
   const incMonth = (e) => {
-    setCurrDate(prev => ({
+    const currDate = picker.currentDate.month;
+    console.log(currDate)
+    setPicker(prev => ({
       ...prev,
-      month: currDate.month + 1
+      currentDate: {
+        ...prev,
+        month: currDate + 1
+      }
     }))
+    props.updateDate(picker);
   }
   const decMonth = (e) => {
-    setCurrDate(prev => ({
+    const currDate = picker.currentDate.month;
+    console.log(currDate)
+    setPicker(prev => ({
       ...prev,
-      month: currDate.month - 1
+      currentDate: {
+        ...prev,
+        month: currDate - 1
+      }
     }))
+    props.updateDate(picker);
+    console.log(picker.currentDate.month)
   }
   const dayArray = picker.days;
 
