@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { GetDateRange } from '../../../helpers/getDateRange.js'
 
-
 // Helper Import
 
 function Datepicker(props) {
@@ -15,73 +14,6 @@ function Datepicker(props) {
     chosen: []
   });
 
-  useEffect(() => {
-    let daysArr = GetDateRange(picker.currentDate);
-    setPicker(prev => ({
-      ...prev,
-      days: daysArr
-    }));
-  }, [picker.currentDate.month])
-
-  useEffect(() => {
-    props.updateDate(picker);
-  }, [picker])
-
-  const updatePicker = (data) => {
-      let newStuff = picker['chosen'];
-      let afterStuff = [...newStuff, parseInt(data)];
-      setPicker(prev => ({
-        ...prev,
-        chosen: afterStuff
-      }))
-      props.updateDate(picker);
-  }
-
-  const selectDay = event => {
-    updatePicker(event.currentTarget.id)
-  }
-
-  const selectYear = (event) => {
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        year: parseInt(event)
-        }
-    }))
-  }
-
-  const incMonth = (e) => {
-    const currDate = picker.currentDate.month;
-    console.log(currDate)
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        ...prev,
-        month: currDate + 1
-      }
-    }))
-    props.updateDate(picker);
-  }
-  const decMonth = (e) => {
-    const currDate = picker.currentDate.month;
-    console.log(currDate)
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        ...prev,
-        month: currDate - 1
-      }
-    }))
-    props.updateDate(picker);
-    console.log(picker.currentDate.month)
-  }
-  const dayArray = picker.days;
-
-  const dayList = dayArray.map((day, index) => {
-    return (
-      <div onClick={selectDay} key={index} id={index} className="day"><p>{day.split(' ')[2]}</p></div>
-    )
-  })
 
 
   return (
