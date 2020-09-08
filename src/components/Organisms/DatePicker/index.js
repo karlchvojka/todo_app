@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { GetDateRange } from '../../../helpers/getDateRange.js'
 
-
 // Helper Import
 
 function Datepicker(props) {
@@ -15,67 +14,48 @@ function Datepicker(props) {
     chosen: []
   });
 
+  // Variable sets used in the component functionality
+  const dayArray = picker.days;
+
   useEffect(() => {
-    let daysArr = GetDateRange(picker.currentDate);
-    setPicker(prev => ({
-      ...prev,
+    let daysArr = GetDateRange(picker.currentDate)
+    // update picker.days with the new array.
+    setPicker(prevState => ({
+      ...prevState,
       days: daysArr
     }));
-  }, [picker.currentDate.month])
+  }, []);
 
   useEffect(() => {
     props.updateDate(picker);
-  }, [picker])
+  }, [picker]);
 
-  const updatePicker = (data) => {
-      let newStuff = picker['chosen'];
-      let afterStuff = [...newStuff, parseInt(data)];
-      setPicker(prev => ({
-        ...prev,
-        chosen: afterStuff
-      }))
-      props.updateDate(picker);
+  useEffect(() => {
+    console.log("sick")
+  }, [picker.currentDate.month])
+
+  const selectNextDay = (data) => {
+    let currentChosen = picker.chosen;
+    setPicker(prevState => ({
+      ...prevState,
+      chosen: [...currentChosen, data]
+    }));
+  }
+  const selectReset = (data) => {
+    setPicker(prevState => ({
+      ...prevState,
+      chosen: [data]
+    }));
   }
 
   const selectDay = event => {
-    updatePicker(event.currentTarget.id)
+    let currentChosen = picker.chosen;
+    if(currentChosen.length === 2) {
+      selectReset(parseInt(event.currentTarget.id))
+    } else {
+      selectNextDay(parseInt(event.currentTarget.id))
+    }
   }
-
-  const selectYear = (event) => {
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        year: parseInt(event)
-        }
-    }))
-  }
-
-  const incMonth = (e) => {
-    const currDate = picker.currentDate.month;
-    console.log(currDate)
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        ...prev,
-        month: currDate + 1
-      }
-    }))
-    props.updateDate(picker);
-  }
-  const decMonth = (e) => {
-    const currDate = picker.currentDate.month;
-    console.log(currDate)
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        ...prev,
-        month: currDate - 1
-      }
-    }))
-    props.updateDate(picker);
-    console.log(picker.currentDate.month)
-  }
-  const dayArray = picker.days;
 
   const dayList = dayArray.map((day, index) => {
     return (
@@ -83,6 +63,28 @@ function Datepicker(props) {
     )
   })
 
+  function incMonth() {
+    const currDate = picker.currentDate.month;
+
+    setPicker(prev => ({
+      ...prev,
+      currentDate: {
+        ...prev,
+        month: currDate + 1
+     }
+    }))
+  }
+
+  function decMonth() {
+    const currDate = picker.currentDate.month;
+    setPicker(prev => ({
+     ...prev,
+     currentDate: {
+       ...prev,
+       month: currDate - 1
+     }
+    }))
+  }
 
   return (
     <section className="datepicker">
