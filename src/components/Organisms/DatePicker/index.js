@@ -30,8 +30,32 @@ function Datepicker(props) {
     props.updateDate(picker);
   }, [picker]);
 
+  useEffect(() => {
+    console.log("sick")
+  }, [picker.currentDate.month])
+
+  const selectNextDay = (data) => {
+    let currentChosen = picker.chosen;
+    setPicker(prevState => ({
+      ...prevState,
+      chosen: [...currentChosen, data]
+    }));
+  }
+  const selectReset = (data) => {
+    setPicker(prevState => ({
+      ...prevState,
+      chosen: [data]
+    }));
+  }
+
   const selectDay = event => {
-    console.log(parseInt('selectDay: ', event.currentTarget.id))
+    let currentChosen = picker.chosen;
+    if(currentChosen.length === 2) {
+      selectReset(parseInt(event.currentTarget.id))
+    } else {
+      selectNextDay(parseInt(event.currentTarget.id))
+    }
+
   }
 
   const dayList = dayArray.map((day, index) => {
