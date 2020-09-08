@@ -55,7 +55,6 @@ function Datepicker(props) {
     } else {
       selectNextDay(parseInt(event.currentTarget.id))
     }
-
   }
 
   const dayList = dayArray.map((day, index) => {
