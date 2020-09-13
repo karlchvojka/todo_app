@@ -15,7 +15,7 @@ function Datepicker(props) {
   });
 
   // Variable sets used in the component functionality
-  const dayArray = picker.days;
+  const dayObj = picker.days;
 
   const updateDaysArr = () => {
     setPicker(prev => ({
@@ -25,8 +25,8 @@ function Datepicker(props) {
   }
 
   useEffect(() => {
+  }, [picker.currentDate.month]);
 
-  }, [picker.currentDate.month];)
   // This updates the state with a days list on load.
   useEffect(() => {
     updateDaysArr();
@@ -39,6 +39,7 @@ function Datepicker(props) {
 
 
   const selectNextDay = (data) => {
+    console.log(data)
     let currentChosen = picker.chosen;
     setPicker(prevState => ({
       ...prevState,
@@ -53,7 +54,8 @@ function Datepicker(props) {
   }
 
   const selectDay = event => {
-    let currentChosen = picker.chosen;
+    console.log(event.currentTarget)
+    let currentChosen = picker.chosen
     if(currentChosen.length === 2) {
       selectReset(parseInt(event.currentTarget.id))
     } else {
@@ -73,6 +75,7 @@ function Datepicker(props) {
         month: currDate + 1
      }
     }))
+    updateDaysArr();
   }
 
   // Decreases chosen month by one
@@ -86,11 +89,21 @@ function Datepicker(props) {
       month: currDate - 1
      }
     }))
+    updateDaysArr();
   }
 
-  const dayList = dayArray.map((day, index) => {
+  const dayList = Object.keys(dayObj).map(function(key, index) {
     return (
-      <div onClick={selectDay} key={index} id={index} className="day"><p>{day.split(' ')[2]}</p></div>
+      <div key={index} className={key + ' monthWrap'}>
+        <p>{key}</p>
+        <div className="daysWrap">
+          {dayObj[key].map((day, index) => {
+            return (
+              <div onClick={selectDay} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
+            )
+          })}
+        </div>
+      </div>
     )
   })
 
@@ -106,10 +119,10 @@ function Datepicker(props) {
            <option value="2023">2023</option>
         </select>
         </div>
-      <div className="dayswrap">
+      <div className="monthsWrap">
         {dayList}
         </div>
-      </section>
+    </section>
   )
 }
 

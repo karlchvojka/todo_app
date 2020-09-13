@@ -30,13 +30,13 @@ function TaskForm() {
 
         <div className="dateWrap">
           <div className="startDate">
-            <label>Start Date: {dataFromPicker.chosen[0] ? <Moment format="DD MMM">{dataFromPicker['days'][dataFromPicker.chosen[0]]}</Moment>: ''}<br/>
+            <label>Start Date: {dataFromPicker.chosen[0] ? <Moment format="DD MMM">{dataFromPicker['days'][9] === dataFromPicker.chosen[0]}</Moment>: ''}<br/>
               <input type="text" name="startDate" onClick={onDatePick} />
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date:{dataFromPicker.chosen[1] ? <Moment format="DD MMM">{dataFromPicker['days'][dataFromPicker.chosen[1]]}</Moment>: ''} <br/>
+            <label>End Date:{dataFromPicker.chosen[1] ? <Moment format="DD MMM">{dataFromPicker['days'][9] === dataFromPicker.chosen[1]}</Moment>: ''} <br/>
               <input type="text" name="endDate" />
             </label>
           </div>
