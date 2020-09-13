@@ -39,7 +39,6 @@ function Datepicker(props) {
 
 
   const selectNextDay = (data) => {
-    console.log(data)
     let currentChosen = picker.chosen;
     setPicker(prevState => ({
       ...prevState,
@@ -53,13 +52,12 @@ function Datepicker(props) {
     }));
   }
 
-  const selectDay = event => {
-    console.log(event.currentTarget)
+  const selectDay = (day, event) => {
     let currentChosen = picker.chosen
     if(currentChosen.length === 2) {
-      selectReset(parseInt(event.currentTarget.id))
+      selectReset(day)
     } else {
-      selectNextDay(parseInt(event.currentTarget.id))
+      selectNextDay(day)
     }
     updateDaysArr();
   }
@@ -99,7 +97,7 @@ function Datepicker(props) {
         <div className="daysWrap">
           {dayObj[key].map((day, index) => {
             return (
-              <div onClick={selectDay} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
+              <div onClick={() => (selectDay(day, event))} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
             )
           })}
         </div>
