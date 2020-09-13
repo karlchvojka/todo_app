@@ -2,8 +2,7 @@
 
 .datepicker {
   background-color: #000;
-  box-shadow: 2px 1px 8px 5px rgba(48,191,242,0.75);
-
+  box-shadow: 2px 1px 8px 5px rgba(48,191,242,0.25);
   padding:5px;
   position: absolute;
   top: 200px;
@@ -11,21 +10,29 @@
   height: auto;
   width: 200px;
 
-  .dayswrap {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: auto;
-  }
-
-  .day {
-    border: 1px solid $midBlue;
-    margin: 2px;
-    padding: 2px;
-
+  .monthWrap {
     p {
-      font-size:12px;
-      margin: 0px;
+      font-size: 12px;
       text-align:center;
+      margin-bottom:5px;
+      margin-top: 10px;
+    }
+    .daysWrap {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: auto;
+
+      .day {
+        border: 1px solid $midBlue;
+        margin: 2px;
+        padding: 2px;
+
+        p {
+          font-size:12px;
+          margin: 0px;
+          text-align:center;
+        }
+      }
     }
   }
 }
