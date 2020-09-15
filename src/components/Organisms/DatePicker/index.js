@@ -15,12 +15,11 @@ function Datepicker(props) {
   // Variable sets used in the component functionality
   const dayObj = picker.days;
   const day = picker.chosen;
-  console.log(day.getYear() + 1900)
 
   const updateDaysArr = () => {
     setPicker(prev => ({
       ...prev,
-      days: GetDateRange(picker.currentDate)
+      days: GetDateRange(prev.currentDate)
     }));
   }
 
@@ -48,13 +47,11 @@ function Datepicker(props) {
 
   // Increases the chosen month by one
   function incMonth() {
-    const currDate = picker.currentDate.month;
-    const currYear = picker.currentDate.year;
     setPicker(prev => ({
       ...prev,
       currentDate: {
-        year: currYear,
-        month: currDate + 1
+        year: prev.currentDate.year,
+        month: prev.currentDate.month + 1
      }
     }))
     updateDaysArr();
@@ -62,13 +59,11 @@ function Datepicker(props) {
 
   // Decreases chosen month by one
   function decMonth() {
-    const currDate = picker.currentDate.month;
-    const currYear = picker.currentDate.year;
     setPicker(prev => ({
      ...prev,
      currentDate: {
-      year: currYear,
-      month: currDate - 1
+      year: prev.currentDate.year,
+      month: prev.currentDate.month - 1
      }
     }))
     updateDaysArr();
@@ -92,8 +87,8 @@ function Datepicker(props) {
   return (
     <section className="datepicker">
       <div>
-        <button onClick={e => incMonth()}>+</button>
-        <button onClick={e => decMonth()}>-</button>
+        <button onClick={(e) => incMonth()}>+</button>
+        <button onClick={(e) => decMonth()}>-</button>
         <select onChange={e => selectYear(e.target.value)}>
           <option value="2020">2020</option>
            <option value="2021">2021</option>
