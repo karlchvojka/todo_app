@@ -16,6 +16,10 @@ function Datepicker(props) {
   const dayObj = picker.days;
   const day = picker.chosen;
 
+  const handleClick = (day, event) => {
+    props.clickHandlerCB && props.clickHandlerCB(new Date(day.join(" ")))
+  }
+
   const updateDaysArr = () => {
     setPicker(prev => ({
       ...prev,
@@ -30,20 +34,6 @@ function Datepicker(props) {
   useEffect(() => {
     updateDaysArr();
   }, []);
-
-// Watches the picker state, and updates the parent state
-  useEffect(() => {
-    props.updateDate(picker);
-  }, [picker]);
-
-  const selectDay = (day, event) => {
-    let currentChosen = picker.chosen
-    let newDay = new Date(day.join(' '))
-    setPicker(prevState => ({
-      ...prevState,
-      chosen: newDay
-    }));
-  }
 
   // Increases the chosen month by one
   function incMonth() {
@@ -76,7 +66,7 @@ function Datepicker(props) {
         <div className="daysWrap">
           {dayObj[key].map((day, index) => {
             return (
-              <div onClick={() => (selectDay(day, event))} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
+              <div onClick={(e) => {handleClick(day, e)}} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
             )
           })}
         </div>

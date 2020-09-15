@@ -19,6 +19,12 @@ function TaskForm() {
   chosen: []
   });
 
+  const handleClick = (data) => {
+    console.log('Callback: ', data)
+    let newData = data.getMonth()
+    console.log('new', newData)
+  }
+
   return (
     <section className="taskForm">
       <form action="/newtweet" method="POST">
@@ -50,7 +56,7 @@ function TaskForm() {
 
         <input type="submit" value="tweet" />
         </form>
-      <Datepicker updateDate={setDataFromPicker}/>
+      <Datepicker clickHandlerCB={(e) => { handleClick(e) }} updateDate={setDataFromPicker}/>
       </section>
   )
 }
