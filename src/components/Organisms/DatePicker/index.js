@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { GetDateRange } from '../../../helpers/getDateRange.js'
-
-// Helper Import
+import { GetDateRange } from './Helpers/getDateRange.js'
 
 function Datepicker(props) {
   const [picker, setPicker] = useState({
     currentDate: {
       year: new Date().getYear() + 1900,
-      month: new Date().getMonth() + 1
+      month: new Date().getMonth()
     },
     days: [],
-    chosen: []
+    chosen: new Date()
   });
 
   // Variable sets used in the component functionality
   const dayObj = picker.days;
+  const day = picker.chosen;
+  console.log(day.getYear() + 1900)
 
   const updateDaysArr = () => {
     setPicker(prev => ({
@@ -37,29 +37,13 @@ function Datepicker(props) {
     props.updateDate(picker);
   }, [picker]);
 
-
-  const selectNextDay = (data) => {
-    let currentChosen = picker.chosen;
-    setPicker(prevState => ({
-      ...prevState,
-      chosen: [...currentChosen, data]
-    }));
-  }
-  const selectReset = (data) => {
-    setPicker(prevState => ({
-      ...prevState,
-      chosen: [data]
-    }));
-  }
-
   const selectDay = (day, event) => {
     let currentChosen = picker.chosen
-    if(currentChosen.length === 2) {
-      selectReset(day)
-    } else {
-      selectNextDay(day)
-    }
-    updateDaysArr();
+    let newDay = new Date(day.join(' '))
+    setPicker(prevState => ({
+      ...prevState,
+      chosen: newDay
+    }));
   }
 
   // Increases the chosen month by one
