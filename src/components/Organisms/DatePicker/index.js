@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+
 import './index.scss';
 import { GetDateRange } from './Helpers/getDateRange.js'
 
 function Datepicker(props) {
   const [picker, setPicker] = useState({
     currentDate: {
+      today: new Date(),
       year: new Date().getYear() + 1900,
-      month: new Date().getMonth()
+      month: new Date().getMonth() + 1
     },
     days: [],
     chosen: new Date()
@@ -15,9 +18,11 @@ function Datepicker(props) {
   // Variable sets used in the component functionality
   const dayObj = picker.days;
   const day = picker.chosen;
-
+  // IMPORTANT. HANDLES THE CLICK CALLBACK.
   const handleClick = (day, event) => {
-    props.clickHandlerCB && props.clickHandlerCB(new Date(day.join(" ")))
+    console.log(day)
+    let dateFormat = moment(`${day[2]}-${day[0]}-${day[1]}`);
+    props.clickHandlerCB && props.clickHandlerCB(dateFormat)
   }
 
   const updateDaysArr = () => {
@@ -40,6 +45,7 @@ function Datepicker(props) {
     setPicker(prev => ({
       ...prev,
       currentDate: {
+        today: prev.currentDate.today,
         year: prev.currentDate.year,
         month: prev.currentDate.month + 1
      }
@@ -52,6 +58,7 @@ function Datepicker(props) {
     setPicker(prev => ({
      ...prev,
      currentDate: {
+      today: prev.currentDate.today,
       year: prev.currentDate.year,
       month: prev.currentDate.month - 1
      }
@@ -62,11 +69,11 @@ function Datepicker(props) {
   const dayList = Object.keys(dayObj).map(function(key, index) {
     return (
       <div key={index} className={key + ' monthWrap'}>
-        <p>{key}</p>
+        <p>{moment(key).format('MMM')}</p>
         <div className="daysWrap">
           {dayObj[key].map((day, index) => {
             return (
-              <div onClick={(e) => {handleClick(day, e)}} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
+              <div onClick={(e) => {handleClick([parseInt(key), (day + 1), picker.currentDate.year], e)}} key={index} id={day} className="day"><p>{day + 1}</p></div>
             )
           })}
         </div>

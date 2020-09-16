@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import Moment from 'react-moment';
+import moment from 'moment';
 
 import Datepicker from '../DatePicker'
 import { GetDateRange } from '../../../helpers/getDateRange.js'
@@ -21,8 +21,8 @@ function TaskForm() {
 
   const handleClick = (data) => {
     console.log('Callback: ', data)
-    let newData = data.getMonth()
-    console.log('new', newData)
+    let newData = moment()
+    console.log("Month", newData)
   }
 
   return (

@@ -3,24 +3,23 @@ import { extendMoment } from 'moment-range';
 const moment2 = extendMoment(moment);
 
 export const GetDateRange = (currDate) => {
+  console.log(currDate)
   const currMonth = currDate.month;
-  let start = new Date(currDate.year, currMonth, 1);
-  let end   = new Date(currDate.year, currMonth + 1, 0);
-  let range = moment2.range(start, end);
+  const currYear = currDate.today.getYear() + 1900;
+  const currDateStr = currDate.year.toString() + " " + currMonth;
+  let endOfMonth = moment(`${currYear} ${currMonth}`).endOf('month');
+  const lastDay = endOfMonth.get('date');
+  let daysArr =[...Array(lastDay).keys()]
+
   let daysObj = {};
-  let idTracker = 0;
 
+  for (let day of daysArr) {
 
-  for (let day of range.by('day')) {
-    let dayNew = day._d.toString().split(' ');
-    dayNew.push(idTracker + 1);
-    if(!daysObj[dayNew[1]]) {
-      daysObj[dayNew[1]] = [dayNew]
+    if(!daysObj[currMonth]) {
+      daysObj[currMonth] = [day]
     } else {
-      daysObj[dayNew[1]].push(dayNew);
+      daysObj[currMonth].push(day);
     }
-
-    idTracker++
   }
 
   return daysObj;
