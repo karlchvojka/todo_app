@@ -15,9 +15,18 @@ function Datepicker(props) {
     chosen: new Date()
   });
 
+  useEffect(() => {
+  }, [picker.currentDate.month]);
+
+  // This updates the state with a days list on load.
+  useEffect(() => {
+    updateDaysArr();
+  }, []);
+
   // Variable sets used in the component functionality
   const dayObj = picker.days;
   const day = picker.chosen;
+
   // IMPORTANT. HANDLES THE CLICK CALLBACK.
   const handleClick = (day, event) => {
     console.log(day)
@@ -31,14 +40,6 @@ function Datepicker(props) {
       days: GetDateRange(prev.currentDate)
     }));
   }
-
-  useEffect(() => {
-  }, [picker.currentDate.month]);
-
-  // This updates the state with a days list on load.
-  useEffect(() => {
-    updateDaysArr();
-  }, []);
 
   // Increases the chosen month by one
   function incMonth() {

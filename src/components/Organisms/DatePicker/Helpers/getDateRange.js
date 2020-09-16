@@ -3,7 +3,6 @@ import { extendMoment } from 'moment-range';
 const moment2 = extendMoment(moment);
 
 export const GetDateRange = (currDate) => {
-  console.log(currDate)
   const currMonth = currDate.month;
   const currYear = currDate.today.getYear() + 1900;
   const currDateStr = currDate.year.toString() + " " + currMonth;
