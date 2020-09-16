@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 import './index.scss';
 import { GetDateRange } from './Helpers/getDateRange.js'
+import { MonthHelp } from './Helpers/monthHelp.js'
 
 function Datepicker(props) {
   const [picker, setPicker] = useState({
@@ -29,7 +30,6 @@ function Datepicker(props) {
 
   // IMPORTANT. HANDLES THE CLICK CALLBACK.
   const handleClick = (day, event) => {
-    console.log('day', day)
     let dateFormat = dayjs(`${day[2]}-${day[0]}-${day[1]}`);
     props.clickHandlerCB && props.clickHandlerCB(dateFormat)
   }
@@ -42,26 +42,13 @@ function Datepicker(props) {
   }
 
   // Increases the chosen month by one
-  function incMonth() {
+  function incMonth(value) {
     setPicker(prev => ({
       ...prev,
       currentDate: {
         today: prev.currentDate.today,
         year: prev.currentDate.year,
-        month: prev.currentDate.month + 1
-     }
-    }))
-    updateDaysArr();
-  }
-
-  // Decreases chosen month by one
-  function decMonth() {
-    setPicker(prev => ({
-     ...prev,
-     currentDate: {
-      today: prev.currentDate.today,
-      year: prev.currentDate.year,
-      month: prev.currentDate.month - 1
+        month: MonthHelp(prev.currentDate.month, value)
      }
     }))
     updateDaysArr();
@@ -85,8 +72,8 @@ function Datepicker(props) {
   return (
     <section className="datepicker">
       <div>
-        <button onClick={(e) => incMonth()}>+</button>
-        <button onClick={(e) => decMonth()}>-</button>
+        <button onClick={(e) => incMonth(e.target.value)} value="+">+</button>
+        <button onClick={(e) => incMonth(e.target.value)} value="-">-</button>
         <select onChange={e => selectYear(e.target.value)}>
           <option value="2020">2020</option>
            <option value="2021">2021</option>
