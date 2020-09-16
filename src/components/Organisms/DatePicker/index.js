@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import './index.scss';
 import { GetDateRange } from './Helpers/getDateRange.js'
@@ -29,8 +29,8 @@ function Datepicker(props) {
 
   // IMPORTANT. HANDLES THE CLICK CALLBACK.
   const handleClick = (day, event) => {
-    console.log(day)
-    let dateFormat = moment(`${day[2]}-${day[0]}-${day[1]}`);
+    console.log('day', day)
+    let dateFormat = dayjs(`${day[2]}-${day[0]}-${day[1]}`);
     props.clickHandlerCB && props.clickHandlerCB(dateFormat)
   }
 
@@ -70,7 +70,7 @@ function Datepicker(props) {
   const dayList = Object.keys(dayObj).map(function(key, index) {
     return (
       <div key={index} className={key + ' monthWrap'}>
-        <p>{moment(key).format('MMM')}</p>
+      <p>{dayjs(key).format('MMM')}</p>
         <div className="daysWrap">
           {dayObj[key].map((day, index) => {
             return (
