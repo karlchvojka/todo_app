@@ -27,6 +27,11 @@ function Datepicker(props) {
     setDisplayYear(yearHelp(displayYear, displayMonth, operation));
   }
 
+  // Choose year
+  const selectYear = ({ target: {value: year }}) => {
+    setDisplayYear(parseInt(year))
+  }
+
   const dayList = (
     <div className={`${displayMonth + 1}-monthWrap`}>
     <p>{dayjs(`${displayYear}-${displayMonth + 1}`).format('MMM')}</p>
@@ -61,7 +66,7 @@ function Datepicker(props) {
       <div>
         <button onClick={modifyMonth} value="+">+</button>
         <button onClick={modifyMonth} value="-">-</button>
-        <select onChange={() => selectYear}>
+        <select onChange={selectYear}>
           <option value="2020">2020</option>
           <option value="2021">2021</option>
           <option value="2022">2022</option>
