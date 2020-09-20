@@ -10,22 +10,29 @@ function onDatePick(e) {
 }
 
 function TaskForm() {
-  const [dataFromPicker, setDataFromPicker] = useState({
-    currentDate: {
-      year: '',
-      month: ''
-    },
-    days: [],
-  chosen: []
-  });
+  const [startDatePicker, setStartDatePicker] = useState('hidden');
+  const [endDatePicker, setEndDatePicker] = useState('hidden');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
-  const handleClick = (data) => {
-    console.log('Callback: ', data)
+
+  const pickDate = (data, source) => {
+    if (source === 'startDate') {
+      setStartDate(data);
+      setStartDatePicker('hidden');
+    } else if (source === 'endDate') {
+      setEndDate(data);
+      setEndDatePicker('hidden');
+    }
   }
 
-  // const startDatePick = () => {
-  //   if(document.activeElement === ReactDom.findDOMNode())
-  // }
+  const showDatePick = source => () => {
+    if (source === 'startDate') {
+      setStartDatePicker('show');
+    } else if (source === 'endDate') {
+      setEndDatePicker('show');
+    }
+  }
 
   return (
     <section className="taskForm">
@@ -38,15 +45,16 @@ function TaskForm() {
 
         <div className="dateWrap">
           <div className="startDate">
-            <label>Start Date: {dataFromPicker.chosen[0] ? dataFromPicker.chosen[0].slice(1, 3).join(" "): ''}<br/>
-              <input type="text" name="startDate" onClick={startDatePick} />
-              <Datepicker className="startDatePick" clickHandlerCB={(e) => { handleClick(e) }} />
+            <label>Start Date: <br/>
+              <input type="text" name="startDate" onClick={showDatePick('startDate')} />
+              <Datepicker className={`datePicker ` + startDatePicker} clickHandlerCB={(e) => { pickDate(e, 'startDate') }} />
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date:{dataFromPicker.chosen[1] ? dataFromPicker.chosen[1].slice(1, 3).join(" "): ''} <br/>
-              <input type="text" name="endDate" />
+            <label>End Date:<br/>
+              <input type="text" name="endDate" onClick={showDatePick('endDate')} />
+              <Datepicker className={`datePicker ` + endDatePicker} clickHandlerCB={(e) => { pickDate(e, 'endDate')}} />
             </label>
           </div>
         </div>
