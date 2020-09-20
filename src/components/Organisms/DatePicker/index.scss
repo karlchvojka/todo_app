@@ -14,21 +14,30 @@
       margin-bottom:5px;
       margin-top: 10px;
     }
-    .daysWrap {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: auto;
+  }
 
-      .day {
-        border: 1px solid $midBlue;
-        margin: 2px;
-        padding: 2px;
+  .daysWrap {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto;
 
-        p {
-          font-size:12px;
-          margin: 0px;
-          text-align:center;
-        }
+    .day {
+      border: 1px solid $midBlue;
+      margin: 2px;
+      padding: 2px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      p {
+        font-size:12px;
+        margin: 0px;
+        text-align:center;
+      }
+
+      &.selected {
+        background: $midBlue;
       }
     }
   }
