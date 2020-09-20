@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDom from 'react-dom'
 import './index.scss';
 import dayjs from 'dayjs';
 
@@ -22,6 +23,10 @@ function TaskForm() {
     console.log('Callback: ', data)
   }
 
+  // const startDatePick = () => {
+  //   if(document.activeElement === ReactDom.findDOMNode())
+  // }
+
   return (
     <section className="taskForm">
       <form action="/newtweet" method="POST">
@@ -34,7 +39,8 @@ function TaskForm() {
         <div className="dateWrap">
           <div className="startDate">
             <label>Start Date: {dataFromPicker.chosen[0] ? dataFromPicker.chosen[0].slice(1, 3).join(" "): ''}<br/>
-              <input type="text" name="startDate" onClick={onDatePick} />
+              <input type="text" name="startDate" onClick={startDatePick} />
+              <Datepicker className="startDatePick" clickHandlerCB={(e) => { handleClick(e) }} />
             </label>
           </div>
 
@@ -53,7 +59,6 @@ function TaskForm() {
 
         <input type="submit" value="tweet" />
         </form>
-      <Datepicker clickHandlerCB={(e) => { handleClick(e) }} />
       </section>
   )
 }

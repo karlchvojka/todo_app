@@ -62,7 +62,7 @@ function Datepicker(props) {
   );
 
   return (
-    <section className="datepicker">
+    <section className={props.className}>
       <div>
         <button onClick={modifyMonth} value="+">+</button>
         <button onClick={modifyMonth} value="-">-</button>
