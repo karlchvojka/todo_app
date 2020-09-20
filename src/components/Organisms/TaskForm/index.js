@@ -3,7 +3,6 @@ import './index.scss';
 import dayjs from 'dayjs';
 
 import Datepicker from '../DatePicker'
-import { GetDateRange } from '../../../helpers/getDateRange.js'
 
 function onDatePick(e) {
   e.preventDefault();
