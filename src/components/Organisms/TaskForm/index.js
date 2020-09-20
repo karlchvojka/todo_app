@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import Moment from 'react-moment';
+import dayjs from 'dayjs';
 
 import Datepicker from '../DatePicker'
 import { GetDateRange } from '../../../helpers/getDateRange.js'
@@ -18,6 +18,10 @@ function TaskForm() {
     days: [],
   chosen: []
   });
+
+  const handleClick = (data) => {
+    console.log('Callback: ', data)
+  }
 
   return (
     <section className="taskForm">
@@ -50,7 +54,7 @@ function TaskForm() {
 
         <input type="submit" value="tweet" />
         </form>
-      <Datepicker updateDate={setDataFromPicker}/>
+      <Datepicker clickHandlerCB={(e) => { handleClick(e) }} />
       </section>
   )
 }

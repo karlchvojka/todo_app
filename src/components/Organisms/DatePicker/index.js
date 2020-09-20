@@ -1,125 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
-import { GetDateRange } from '../../../helpers/getDateRange.js'
+import dayjs from 'dayjs';
 
-// Helper Import
+import './index.scss';
+import { getDateRange, monthHelp, yearHelp } from './helpers/dateHelp.js'
 
 function Datepicker(props) {
-  const [picker, setPicker] = useState({
-    currentDate: {
-      year: new Date().getYear() + 1900,
-      month: new Date().getMonth() + 1
-    },
-    days: [],
-    chosen: []
-  });
+  const today = dayjs();
+  const [selectedDay, setSelectedDay] = useState(today.toISOString().slice(0, 10));
+  const [displayMonth, setDisplayMonth] = useState(today.month());
+  const [displayYear, setDisplayYear] = useState(today.year());
+  const [days, setDays] = useState([]);
 
-  // Variable sets used in the component functionality
-  const dayObj = picker.days;
+  useEffect(() => { // This updates the state with a days list on load.
+    setDays(getDateRange(displayYear, displayMonth));
+  }, [displayMonth]);
 
-  const updateDaysArr = () => {
-    setPicker(prev => ({
-      ...prev,
-      days: GetDateRange(picker.currentDate)
-    }));
-  }
-
-  useEffect(() => {
-  }, [picker.currentDate.month]);
-
-  // This updates the state with a days list on load.
-  useEffect(() => {
-    updateDaysArr();
-  }, []);
-
-// Watches the picker state, and updates the parent state
-  useEffect(() => {
-    props.updateDate(picker);
-  }, [picker]);
-
-
-  const selectNextDay = (data) => {
-    let currentChosen = picker.chosen;
-    setPicker(prevState => ({
-      ...prevState,
-      chosen: [...currentChosen, data]
-    }));
-  }
-  const selectReset = (data) => {
-    setPicker(prevState => ({
-      ...prevState,
-      chosen: [data]
-    }));
-  }
-
-  const selectDay = (day, event) => {
-    let currentChosen = picker.chosen
-    if(currentChosen.length === 2) {
-      selectReset(day)
-    } else {
-      selectNextDay(day)
-    }
-    updateDaysArr();
+  // IMPORTANT. HANDLES THE CLICK CALLBACK.
+  const handleClick = newDay => () => {
+    setSelectedDay(newDay);
+    props.clickHandlerCB && props.clickHandlerCB(newDay);
   }
 
   // Increases the chosen month by one
-  function incMonth() {
-    const currDate = picker.currentDate.month;
-    const currYear = picker.currentDate.year;
-    setPicker(prev => ({
-      ...prev,
-      currentDate: {
-        year: currYear,
-        month: currDate + 1
-     }
-    }))
-    updateDaysArr();
+  const modifyMonth = ({ target: { value: operation }}) => {
+    setDisplayMonth(monthHelp(displayMonth, operation));
+    setDisplayYear(yearHelp(displayYear, displayMonth, operation));
   }
 
-  // Decreases chosen month by one
-  function decMonth() {
-    const currDate = picker.currentDate.month;
-    const currYear = picker.currentDate.year;
-    setPicker(prev => ({
-     ...prev,
-     currentDate: {
-      year: currYear,
-      month: currDate - 1
-     }
-    }))
-    updateDaysArr();
+  // Choose year
+  const selectYear = ({ target: {value: year }}) => {
+    setDisplayYear(parseInt(year))
   }
 
-  const dayList = Object.keys(dayObj).map(function(key, index) {
-    return (
-      <div key={index} className={key + ' monthWrap'}>
-        <p>{key}</p>
-        <div className="daysWrap">
-          {dayObj[key].map((day, index) => {
+  const dayList = (
+    <div className={`${displayMonth + 1}-monthWrap`}>
+    <p>{dayjs(`${displayYear}-${displayMonth + 1}`).format('MMM')}</p>
+      <div className="daysWrap">
+        {
+          days.map((undefined, index) => {
+            const thisDay = index;
+            const newDay = dayjs(`${
+              displayYear}-${
+              displayMonth + 1}-${
+              thisDay
+            }`).toISOString().slice(0,10);
+
             return (
-              <div onClick={() => (selectDay(day, event))} key={index} id={day[9]} className="day"><p>{day[2]}</p></div>
+              <div
+                onClick={handleClick(newDay)}
+                key={`${thisDay}-dayTile`}
+                id={thisDay}
+                className={`day${newDay === selectedDay ? ' selected' : ''}`}
+                >
+                <p>{thisDay}</p>
+              </div>
             )
-          })}
-        </div>
+          })
+        }
       </div>
-    )
-  })
+    </div>
+  );
 
   return (
     <section className="datepicker">
       <div>
-        <button onClick={e => incMonth()}>+</button>
-        <button onClick={e => decMonth()}>-</button>
-        <select onChange={e => selectYear(e.target.value)}>
+        <button onClick={modifyMonth} value="+">+</button>
+        <button onClick={modifyMonth} value="-">-</button>
+        <select onChange={selectYear}>
           <option value="2020">2020</option>
-           <option value="2021">2021</option>
-           <option value="2022">2022</option>
-           <option value="2023">2023</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
         </select>
-        </div>
+      </div>
+
       <div className="monthsWrap">
         {dayList}
-        </div>
+      </div>
     </section>
   )
 }
