@@ -2,9 +2,10 @@ import dayjs from 'dayjs';
 
 export const getDateRange = (year, month) => {
   let endOfMonth =
-    dayjs(`${year}-${month}`)
+    dayjs(`${year}-${month + 1}`)
     .endOf('month')
     .get('date');
+  console.log(endOfMonth)
   let daysArr =[...Array(endOfMonth).keys()]
   return Array(endOfMonth).fill(0);
 };

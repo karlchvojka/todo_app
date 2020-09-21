@@ -5,10 +5,6 @@ import dayjs from 'dayjs';
 
 import Datepicker from '../DatePicker'
 
-function onDatePick(e) {
-  e.preventDefault();
-}
-
 function TaskForm() {
   const [startDatePicker, setStartDatePicker] = useState('hidden');
   const [endDatePicker, setEndDatePicker] = useState('hidden');
@@ -17,12 +13,15 @@ function TaskForm() {
 
 
   const pickDate = (data, source) => {
+    console.log(data)
     if (source === 'startDate') {
-      setStartDate(data);
       setStartDatePicker('hidden');
-    } else if (source === 'endDate') {
-      setEndDate(data);
+      setStartDate(data);
+    }
+
+    if (source === 'endDate') {
       setEndDatePicker('hidden');
+      setEndDate(data);
     }
   }
 
@@ -45,16 +44,16 @@ function TaskForm() {
 
         <div className="dateWrap">
           <div className="startDate">
-            <label>Start Date: <br/>
-              <input type="text" name="startDate" onClick={showDatePick('startDate')} />
-              <Datepicker className={`datePicker ` + startDatePicker} clickHandlerCB={(e) => { pickDate(e, 'startDate') }} />
+            <label>Start Date: {startDate} <br/>
+              <input type="text" name="startDate" onClick={showDatePick('startDate')} value={startDate} readOnly />
+              <Datepicker className={`datePicker ${startDatePicker}`} clickHandlerCB={(e) => { pickDate(e, 'startDate') }} />
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date:<br/>
-              <input type="text" name="endDate" onClick={showDatePick('endDate')} />
-              <Datepicker className={`datePicker ` + endDatePicker} clickHandlerCB={(e) => { pickDate(e, 'endDate')}} />
+            <label>End Date: {endDate}<br/>
+              <input type="text" name="endDate" onClick={showDatePick('endDate')} value={endDate} readOnly />
+              <Datepicker className={`datePicker ${endDatePicker}`} clickHandlerCB={(e) => { pickDate(e, 'endDate')}} />
             </label>
           </div>
         </div>
