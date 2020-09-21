@@ -23,6 +23,7 @@ function Datepicker(props) {
 
   // Increases the chosen month by one
   const modifyMonth = ({ target: { value: operation }}) => {
+    event.preventDefault()
     setDisplayMonth(monthHelp(displayMonth, operation));
     setDisplayYear(yearHelp(displayYear, displayMonth, operation));
   }
@@ -38,13 +39,12 @@ function Datepicker(props) {
       <div className="daysWrap">
         {
           days.map((undefined, index) => {
-            const thisDay = index;
+            const thisDay = index + 1;
             const newDay = dayjs(`${
               displayYear}-${
               displayMonth + 1}-${
               thisDay
             }`).toISOString().slice(0,10);
-
             return (
               <div
                 onClick={handleClick(newDay)}
