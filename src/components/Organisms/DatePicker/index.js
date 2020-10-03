@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 import './index.scss';
-import { getDateRange, monthHelp, yearHelp } from './helpers/dateHelp.js'
+import { getDateRange, monthHelp, yearHelp } from './helpers/dateHelp.js';
 
-function Datepicker(props) {
+function Datepicker({
+  className = 'datePicker',
+  clickHandlerCB = () => {}, // noop
+}) {
   const today = dayjs();
   const [selectedDay, setSelectedDay] = useState(today.toISOString().slice(0, 10));
   const [displayMonth, setDisplayMonth] = useState(today.month());
@@ -16,69 +19,75 @@ function Datepicker(props) {
   }, [displayMonth]);
 
   // IMPORTANT. HANDLES THE CLICK CALLBACK.
-  const handleClick = newDay => () => {
+  const handleClick = newDay => event => {
+    event.preventDefault();
+    console.log('handleClick', newDay)
     setSelectedDay(newDay);
-    props.clickHandlerCB && props.clickHandlerCB(newDay);
-  }
+    clickHandlerCB && clickHandlerCB(newDay);
+  };
 
   // Increases the chosen month by one
-  const modifyMonth = ({ target: { value: operation }}) => {
-    event.preventDefault()
+  const modifyMonth = operation => event => {
+    event.preventDefault();
     setDisplayMonth(monthHelp(displayMonth, operation));
     setDisplayYear(yearHelp(displayYear, displayMonth, operation));
-  }
+  };
 
   // Choose year
-  const selectYear = ({ target: {value: year }}) => {
-    setDisplayYear(parseInt(year))
-  }
+  const selectYear = ({ target: { value: year } }) => {
+    setDisplayYear(parseInt(year, 10));
+  };
+
+  const validateYearInput = ({ target: { value } }) => {
+    // if value
+  };
 
   const dayList = (
     <div className={`${displayMonth + 1}-monthWrap`}>
-    <p>{dayjs(`${displayYear}-${displayMonth + 1}`).format('MMM')}</p>
-      <div className="daysWrap">
-        {
-          days.map((undefined, index) => {
-            const thisDay = index + 1;
-            const newDay = dayjs(`${
-              displayYear}-${
-              displayMonth + 1}-${
-              thisDay
-            }`).toISOString().slice(0,10);
-            return (
-              <div
-                onClick={handleClick(newDay)}
-                key={`${thisDay}-dayTile`}
-                id={thisDay}
-                className={`day${newDay === selectedDay ? ' selected' : ''}`}
-                >
-                <p>{thisDay}</p>
-              </div>
-            )
-          })
-        }
+      <p>{dayjs(`${displayYear}-${displayMonth + 1}`).format('MMM')}</p>
+
+      <div className={`${className}-dayWrapper`}>
+        {days.map((_, index) => {
+          const thisDay = index + 1;
+          const newDay = dayjs(`${
+            displayYear}-${
+            displayMonth + 1}-${
+            thisDay
+          }`).toISOString().slice(0, 10);
+
+          return (
+            <button
+              className={`${className}-day${
+                newDay === selectedDay ? ' selected' : ''
+              }`}
+              id={thisDay}
+              key={`${thisDay}-dayTile`}
+              onClick={handleClick(newDay)}
+              type="button"
+              >
+              {thisDay}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 
   return (
-    <section className={props.className}>
-      <div>
-        <button onClick={modifyMonth} value="+">+</button>
-        <button onClick={modifyMonth} value="-">-</button>
-        <select onChange={selectYear}>
-          <option value="2020">2020</option>
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-        </select>
-      </div>
+    <article className={className}>
+      <section className={`${className}-toolbar`}>
+        <button onClick={modifyMonth('-')} type="button">-</button>
 
-      <div className="monthsWrap">
+        <input onChange={validateYearInput} value={displayYear} />
+
+        <button onClick={modifyMonth('+')} type="button">+</button>
+      </section>
+
+      <section className={`${className}-monthWrapper`}>
         {dayList}
-      </div>
-    </section>
-  )
+      </section>
+    </article>
+  );
 }
 
-export default Datepicker
+export default Datepicker;

@@ -6,32 +6,26 @@ import dayjs from 'dayjs';
 import Datepicker from '../DatePicker'
 
 function TaskForm() {
-  const [startDatePicker, setStartDatePicker] = useState('hidden');
-  const [endDatePicker, setEndDatePicker] = useState('hidden');
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  const pickDate = (data, source) => (
+    source === 'startDate'
+      ? setStartDate
+    : source === 'endDate'
+      ? setEndDate
+    : () => {}
+  )(data);
 
-  const pickDate = (data, source) => {
-    console.log(data)
-    if (source === 'startDate') {
-      setStartDatePicker('hidden');
-      setStartDate(data);
-    }
-
-    if (source === 'endDate') {
-      setEndDatePicker('hidden');
-      setEndDate(data);
-    }
-  }
-
-  const showDatePick = source => () => {
-    if (source === 'startDate') {
-      setStartDatePicker('show');
-    } else if (source === 'endDate') {
-      setEndDatePicker('show');
-    }
-  }
+  const showDatePick = (source, show) => () => (
+    source === 'startDate'
+      ? setShowStartDatePicker
+    : source === 'endDate'
+      ? setShowEndDatePicker
+    : () => {}
+  )(show);
 
   return (
     <section className="taskForm">
@@ -45,15 +39,41 @@ function TaskForm() {
         <div className="dateWrap">
           <div className="startDate">
             <label>Start Date: {startDate} <br/>
-              <input type="text" name="startDate" onClick={showDatePick('startDate')} value={startDate} readOnly />
-              <Datepicker className={`datePicker ${startDatePicker}`} clickHandlerCB={(e) => { pickDate(e, 'startDate') }} />
+              <input
+                name="startDate"
+                // onBlur={showDatePick('startDate', false)}
+                onClick={showDatePick('startDate', true)}
+                readOnly
+                type="text"
+                value={startDate}
+                />
+
+              {showStartDatePicker && (
+                <Datepicker
+                  clickHandlerCB={(e) => { pickDate(e, 'startDate'); }}
+                  />
+              )}
             </label>
           </div>
 
           <div className="endDate">
-            <label>End Date: {endDate}<br/>
-              <input type="text" name="endDate" onClick={showDatePick('endDate')} value={endDate} readOnly />
-              <Datepicker className={`datePicker ${endDatePicker}`} clickHandlerCB={(e) => { pickDate(e, 'endDate')}} />
+            <label>
+              End Date: {endDate}
+              <br />
+              <input
+                name="endDate"
+                // onBlur={showDatePick('endDate', false)}
+                onClick={showDatePick('endDate', true)}
+                readOnly
+                type="text"
+                value={endDate}
+                />
+
+              {showEndDatePicker && (
+                <Datepicker
+                  clickHandlerCB={(e) => { pickDate(e, 'endDate')}}
+                  />
+              )}
             </label>
           </div>
         </div>
@@ -65,9 +85,9 @@ function TaskForm() {
         </div>
 
         <input type="submit" value="tweet" />
-        </form>
-      </section>
-  )
+      </form>
+    </section>
+  );
 }
 
-export default TaskForm
+export default TaskForm;
