@@ -5,7 +5,7 @@ export const getDateRange = (year, month) => {
     dayjs(`${year}-${month + 1}`)
     .endOf('month')
     .get('date');
-  console.log(endOfMonth)
+  console.log('getDateRange', endOfMonth)
   let daysArr =[...Array(endOfMonth).keys()]
   return Array(endOfMonth).fill(0);
 };
